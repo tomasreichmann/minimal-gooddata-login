@@ -32,10 +32,7 @@ class App extends Component {
     });
 
     sdk.user.login(username, password).then(
-      () => sdk.user.isLoggedIn().then(
-        (isLoggedIn) => this.setState({ isLoggedIn, message: 'user is logged in :-)' }),
-        (error) => this.setState({ isLoggedIn: false, message: 'error while checking logged in status: ' + error })
-      ) ,
+      () => this.setState({ isLoggedIn: true, message: 'user is logged in :-)' }),
       (error) => this.setState({ isLoggedIn: false, message: 'error while trying to log in: ' + error })
     );
   }
@@ -52,7 +49,6 @@ class App extends Component {
 
   render() {
     const { isLoggedIn, message } = this.state;
-    let loginStatus = null;
     return (
       <div className="App">
         <form onSubmit={this.onSubmit} ref={ form => this.form = form }>

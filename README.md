@@ -1,3 +1,60 @@
+# GoodData minimal login example
+
+This project is setup for user log in and log out. It comes with proxy settings for Create React App and a simple form to showcase the login process.
+
+These are the important bits you will need to get the login working.
+
+## App.js:
+
+Import SDK
+```
+import * as sdk from 'gooddata';
+```
+
+Login using SDK and handle promise success and error states; 401 is wrong password, 403 is a problem with server connection (proxy/cors)
+
+```
+sdk.user.login(username, password).then(
+  () => this.setState({ isLoggedIn: true, message: 'user is logged in :-)' }),
+  (error) => this.setState({ isLoggedIn: false, message: 'error while trying to log in: ' + error })
+);
+```
+
+Logout using SDK
+
+```
+sdk.user.logout().then(
+  () => this.setState({ isLoggedIn: false, message: 'user has logged out' }),
+  (error) => this.setState({ isLoggedIn: false, message: 'error while trying to log out: ' + error })
+);
+```
+
+## Proxy
+
+You need to setup proxy for SDK calls to /gdc in your package.json. This is picked up by Create react app webpack config.
+Change https://secure.gooddata.com/ to a server of your choice.
+
+```
+"proxy": {
+  "/gdc": {
+    "changeOrigin": true,
+    "cookieDomainRewrite": "",
+    "secure": false,
+    "target": "https://secure.gooddata.com/"
+  }
+}
+```
+
+Don't forget to switch to HTTPS
+
+```
+"scripts": {
+  "start": "HTTPS=true react-scripts start",
+  ...
+```
+
+# Create React App
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
@@ -300,7 +357,7 @@ In the WebStorm menu `Run` select `Edit Configurations...`. Then click `+` and s
 
 Start your app by running `npm start`, then press `^D` on macOS or `F9` on Windows and Linux or click the green debug icon to start debugging in WebStorm.
 
-The same way you can debug your application in IntelliJ IDEA Ultimate, PhpStorm, PyCharm Pro, and RubyMine. 
+The same way you can debug your application in IntelliJ IDEA Ultimate, PhpStorm, PyCharm Pro, and RubyMine.
 
 ## Formatting Code Automatically
 
@@ -1675,7 +1732,7 @@ Use the following [`launch.json`](https://code.visualstudio.com/docs/editor/debu
       "name": "Debug CRA Tests",
       "type": "node",
       "request": "launch",
-      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/react-scripts",      
+      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/react-scripts",
       "args": [
         "test",
         "--runInBand",
@@ -1989,7 +2046,7 @@ If you’re using [Apache HTTP Server](https://httpd.apache.org/), you need to c
     RewriteRule ^ index.html [QSA,L]
 ```
 
-It will get copied to the `build` folder when you run `npm run build`. 
+It will get copied to the `build` folder when you run `npm run build`.
 
 If you’re using [Apache Tomcat](http://tomcat.apache.org/), you need to follow [this Stack Overflow answer](https://stackoverflow.com/a/41249464/4878474).
 
@@ -2419,7 +2476,7 @@ To resolve this:
 1. Open an issue on the dependency's issue tracker and ask that the package be published pre-compiled.
   * Note: Create React App can consume both CommonJS and ES modules. For Node.js compatibility, it is recommended that the main entry point is CommonJS. However, they can optionally provide an ES module entry point with the `module` field in `package.json`. Note that **even if a library provides an ES Modules version, it should still precompile other ES6 features to ES5 if it intends to support older browsers**.
 
-2. Fork the package and publish a corrected version yourself. 
+2. Fork the package and publish a corrected version yourself.
 
 3. If the dependency is small enough, copy it to your `src/` folder and treat it as application code.
 

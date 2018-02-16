@@ -17,9 +17,9 @@
   "proxy": {
     "/gdc": {
       "changeOrigin": true,
-      "cookieDomainRewrite": "localhost",
+      "cookieDomainRewrite": "",
       "secure": false,
-      "target": "https://secure.gooddata.com/"
+      "target": "https://staging2.intgdc.com/"
     }
   }
 }
